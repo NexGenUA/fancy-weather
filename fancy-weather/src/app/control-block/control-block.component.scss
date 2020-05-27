@@ -1,0 +1,49 @@
+%style-btn {
+  background-color: rgba(255, 255, 255, .3);
+  border: 1px solid rgb(230, 230, 230);
+  height: 35px;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.control-block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.control-block__switch {
+  display: flex;
+
+  & .btn {
+
+    border-radius: 3px;
+    @extend %style-btn;
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+
+    &:hover {
+      filter: brightness(.9);
+    }
+
+    &:active {
+      filter: brightness(1);
+    }
+  }
+
+  & .control-block__fahrenheit,
+    .control-block__celsius {
+    width: 35px;
+  }
+}
+
+.control-block__search-block {
+
+  .control-block__item {
+    @extend %style-btn;
+  }
+}

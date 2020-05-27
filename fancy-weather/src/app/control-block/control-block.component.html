@@ -1,0 +1,12 @@
+<div class="control-block">
+  <div class="control-block__switch">
+    <button class="btn control-block__refresh" id="refresh"></button>
+    <button class="btn control-block__languages" id="languages">EN</button>
+    <button class="btn control-block__fahrenheit" id="fahrenheit">°F</button>
+    <button class="btn control-block__celsius" id="celsius">°C</button>
+  </div>
+  <div class="control-block__search-block">
+    <input class="control-block__item control-block__input" [(ngModel)]="cityName" type="text" placeholder="enter city name">
+    <button class="control-block__item control-block__search" (click)="getWeather()">search</button>
+  </div>
+</div>
