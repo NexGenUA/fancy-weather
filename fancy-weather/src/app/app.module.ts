@@ -7,6 +7,7 @@ import { WeatherTodayComponent } from './weather-today/weather-today.component';
 import { WeatherThreeDaysComponent } from './weather-three-days/weather-three-days.component';
 import { GeoComponent } from './geo/geo.component';
 import { FormsModule } from '@angular/forms';
+import { WeatherIconsComponent } from './weather-icons/weather-icons.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     ControlBlockComponent,
     WeatherTodayComponent,
     WeatherThreeDaysComponent,
-    GeoComponent
+    GeoComponent,
+    WeatherIconsComponent
   ],
   imports: [
     BrowserModule,

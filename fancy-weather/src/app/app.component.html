@@ -1,8 +1,14 @@
-<div class="wrap-app">
+<div class="wrap-app" [style]="background">
   <div class="container-app">
-    <app-control-block></app-control-block>
-    <app-weather-today></app-weather-today>
-    <app-weather-three-days></app-weather-three-days>
-    <app-geo></app-geo>
+    <app-control-block
+      (changeBackground)="switchBackground($event)"
+    ></app-control-block>
+    <div class="container">
+      <div class="weather">
+        <app-weather-today></app-weather-today>
+        <app-weather-three-days></app-weather-three-days>
+      </div>
+      <app-geo></app-geo>
+    </div>
   </div>
 </div>

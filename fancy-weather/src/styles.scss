@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~normalize-scss/sass/normalize/import-now";
+
+body {
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+* {
+  box-sizing: border-box;
+}
+
+.mapboxgl-control-container {
+  display: none;
+}

@@ -1,5 +1,5 @@
 .wrap-app {
-  background-image: url(https://live.staticflickr.com/65535/49934442397_cd42f1d792_h.jpg);
+  background-image: url(../assets/sun.jpg);
   background-size: cover;
   position: fixed;
   top: 0;
@@ -9,6 +9,15 @@
 }
 
 .container-app {
-  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin: 30px auto;
+  padding: 0 30px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
 }
 

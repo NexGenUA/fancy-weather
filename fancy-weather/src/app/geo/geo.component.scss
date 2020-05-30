@@ -1,8 +1,32 @@
 #map-box {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: 550px;
   margin: 0 auto;
   border-radius: 10px;
   background-color: cadetblue;
 }
 
+.geo-container {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  width: calc(50vw - 35px);
+  max-width: 765px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.lat-lon-info {
+  color: rgb(250, 250, 250);
+  font-size: 22px;
+
+  & .lt-ln {
+    margin-top: 10px;
+
+    & span:last-child {
+      margin-left: 20px;
+    }
+  }
+}

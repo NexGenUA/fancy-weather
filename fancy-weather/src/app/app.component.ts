@@ -8,8 +8,21 @@ import { Component } from '@angular/core';
 export class AppComponent{
   title = 'fancy-weather';
   coords: Array<number>;
+  background: string;
 
-  getCoords(coords) {
-    this.coords = coords;
+  switchBackground(backgroundUrl) {
+    const img = new Image();
+
+    img.onload = () => {
+      this.background = `background-image: url(${backgroundUrl})`;
+      img.remove();
+    };
+
+    img.onerror = () => {
+      this.background = `background-image: url(assets/sun.jpg)`;
+      img.remove();
+    };
+
+    img.src = backgroundUrl;
   }
 }

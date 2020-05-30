@@ -1,1 +1,26 @@
-<p>weather-today works!</p>
+<div class="weather-today">
+  <div class="location">
+    <span class="city">minsk</span>
+    <span class="comma">, </span>
+    <span class="country">belarus</span>
+  </div>
+  <div class="date-time">
+    <span class="date">{{ date | date: 'E dd MMMM' }}</span>
+    <span class="time">{{ date | date: 'hh:mm:ss' }}</span>
+  </div>
+  <div class="weather-info">
+    <div class="temperature">
+      <span class="degrees">10</span>
+      <span class="symbol">°</span>
+    </div>
+    <div class="info">
+      <span class="weather-icon">
+        <app-weather-icons [weather]="cloudyToday"></app-weather-icons>
+      </span>
+      <span class="info-item sky">overcast</span>
+      <span class="info-item feels">7</span>
+      <span class="info-item wind">north 3ms</span>
+      <span class="info-item humidity">humidity 83%</span>
+    </div>
+  </div>
+</div>

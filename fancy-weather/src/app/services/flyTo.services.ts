@@ -1,9 +1,13 @@
+import { showLatLowServices } from './showLatLon.services';
+
 export const flyTo = (coords, map, marker) => {
   map.flyTo({
     center: coords,
-    speed: 2, // make the flying slow
-    curve: 1, // change the speed at which it zooms out
+    speed: 2,
+    curve: 1,
     essential: true
     });
   marker.setLngLat(coords).addTo(map);
+
+  showLatLowServices.sendDecimalCoords(coords);
 };

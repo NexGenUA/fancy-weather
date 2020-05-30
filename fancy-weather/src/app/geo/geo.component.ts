@@ -3,6 +3,8 @@ import * as mapboxgl from 'mapbox-gl';
 import { config } from '../../common/config';
 import { coordsService } from '../services/coords.services';
 import { flyTo } from '../services/flyTo.services';
+import { showLatLowServices } from '../services/showLatLon.services';
+
 const { MAPBOX_KEY, IP_INFO_TOKEN } = config;
 (mapboxgl as any).accessToken = MAPBOX_KEY;
 const marker = new mapboxgl.Marker();
@@ -15,14 +17,16 @@ const marker = new mapboxgl.Marker();
 export class GeoComponent implements OnInit {
 
   map: any;
+  latitude = '';
+  longitude = '';
 
   ngOnInit(): void {
 
-    // this.map = new mapboxgl.Map({
-    //   container: 'map-box',
-    //   style: 'mapbox://styles/mapbox/streets-v11',
-    //   zoom: 11
-    // });
+    this.map = new mapboxgl.Map({
+      container: 'map-box',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      zoom: 11,
+    });
 
     const options = {
       enableHighAccuracy: true,
@@ -47,12 +51,18 @@ export class GeoComponent implements OnInit {
         });
     };
 
-    // navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.getCurrentPosition(success, error, options);
 
     coordsService.subscribe(this);
+    showLatLowServices.subscribe(this);
   }
 
   newCoords(coords) {
     flyTo(coords, this.map, marker);
+  }
+
+  getDMS(coords) {
+    this.latitude = coords.latitude;
+    this.longitude = coords.longitude;
   }
 }
