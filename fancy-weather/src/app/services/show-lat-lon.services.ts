@@ -1,6 +1,6 @@
-import { convertToDMS } from './convertToDmc.service';
+import { convertToDMS } from './convert-to-dms.service';
 
-export const showLatLowServices = {
+export const showLatLonServices = {
 
   coords: [],
   subscribers: [],

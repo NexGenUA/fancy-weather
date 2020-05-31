@@ -1,26 +1,25 @@
 <div class="weather-today">
-  <div class="location">
-    <span class="city">minsk</span>
-    <span class="comma">, </span>
-    <span class="country">belarus</span>
+  <div class="location" *ngIf="city">
+    <span class="city">{{ city }}</span>
+    <span class="country">{{ country }}</span>
   </div>
-  <div class="date-time">
+  <div class="date-time" *ngIf="city">
     <span class="date">{{ date | date: 'E dd MMMM' }}</span>
-    <span class="time">{{ date | date: 'hh:mm:ss' }}</span>
+    <span class="time">{{ date | date: 'HH:mm:ss' }}</span>
   </div>
   <div class="weather-info">
-    <div class="temperature">
-      <span class="degrees">10</span>
+    <div class="temperature" *ngIf="temperature">
+      <span class="degrees">{{ temperature }}</span>
       <span class="symbol">°</span>
     </div>
     <div class="info">
       <span class="weather-icon">
-        <app-weather-icons [weather]="cloudyToday"></app-weather-icons>
+        <app-weather-icons *ngIf="temperature" [weather]="cloudyToday"></app-weather-icons>
       </span>
-      <span class="info-item sky">overcast</span>
-      <span class="info-item feels">7</span>
-      <span class="info-item wind">north 3ms</span>
-      <span class="info-item humidity">humidity 83%</span>
+      <span class="info-item sky" *ngIf="sky">{{ sky }}</span>
+      <span class="info-item feels" *ngIf="feelsLike">Feels like: {{ feelsLike }}°</span>
+      <span class="info-item wind" *ngIf="windSpeed">{{ windDirection }}: {{ windSpeed }}</span>
+      <span class="info-item humidity">{{ humidity ? 'Humidity: ' + humidity + '%' : ''}}</span>
     </div>
   </div>
 </div>

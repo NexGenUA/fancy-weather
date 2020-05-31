@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { config } from '../../common/config';
 import { coordsService } from '../services/coords.services';
-import { flyTo } from '../services/flyTo.services';
-import { showLatLowServices } from '../services/showLatLon.services';
+import { flyTo } from '../services/fly-to.services';
+import { showLatLonServices } from '../services/show-lat-lon.services';
 
 const { MAPBOX_KEY, IP_INFO_TOKEN } = config;
 (mapboxgl as any).accessToken = MAPBOX_KEY;
@@ -22,11 +22,11 @@ export class GeoComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.map = new mapboxgl.Map({
-      container: 'map-box',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      zoom: 11,
-    });
+    // this.map = new mapboxgl.Map({
+    //   container: 'map-box',
+    //   style: 'mapbox://styles/mapbox/streets-v11',
+    //   zoom: 11,
+    // });
 
     const options = {
       enableHighAccuracy: true,
@@ -51,10 +51,10 @@ export class GeoComponent implements OnInit {
         });
     };
 
-    navigator.geolocation.getCurrentPosition(success, error, options);
+    // navigator.geolocation.getCurrentPosition(success, error, options);
 
     coordsService.subscribe(this);
-    showLatLowServices.subscribe(this);
+    showLatLonServices.subscribe(this);
   }
 
   newCoords(coords) {
