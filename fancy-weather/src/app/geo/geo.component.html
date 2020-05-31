@@ -1,12 +1,12 @@
 <div class="geo-container">
   <div id="map-box"></div>
   <div class="lat-lon-info">
-    <div class="lt-ln lat">
-      <span class="latitude">Latitude:</span>
+    <div class="lt-ln lat" *ngIf="latitude">
+      <span class="latitude">{{ latitudeText }}:</span>
       <span class="lat-value">{{ latitude }}</span>
     </div>
-    <div class="lt-ln lon">
-      <span class="longitude">Longitude:</span>
+    <div class="lt-ln lon" *ngIf="longitude">
+      <span class="longitude">{{ longitudeText }}:</span>
       <span class="lon-value">{{ longitude }}</span>
     </div>
   </div>

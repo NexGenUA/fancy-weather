@@ -8,6 +8,13 @@ import { WeatherThreeDaysComponent } from './weather-three-days/weather-three-da
 import { GeoComponent } from './geo/geo.component';
 import { FormsModule } from '@angular/forms';
 import { WeatherIconsComponent } from './weather-icons/weather-icons.component';
+import { SwitchLangServices } from './services/switch-lang.services';
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+import localeBe from '@angular/common/locales/be';
+
+registerLocaleData(localeRu, 'ru');
+registerLocaleData(localeBe, 'be');
 
 @NgModule({
   declarations: [
@@ -22,7 +29,7 @@ import { WeatherIconsComponent } from './weather-icons/weather-icons.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [SwitchLangServices],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

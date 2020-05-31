@@ -59,6 +59,7 @@ $background_hover: rgb(160, 150, 140);
     width: 65px;
     padding-left: 10px;
     position: relative;
+    text-transform: uppercase;
 
     & .arrow_down {
       position: absolute;
@@ -158,4 +159,14 @@ $background_hover: rgb(160, 150, 140);
 
 .control-block__languages-container {
   position: relative;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  background-color: rgba(241, 95, 0, 0.7);
+  padding: 0 15px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
 }

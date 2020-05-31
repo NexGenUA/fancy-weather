@@ -3,6 +3,7 @@ import { interval } from 'rxjs';
 import { weatherOneDay } from '../services/weather-one-day.services';
 import countries from '../../common/countries.json';
 import translationWeather from '../../common/translation-weather.json';
+import { SwitchLangServices } from '../services/switch-lang.services';
 
 @Component({
   selector: 'app-weather-today',
@@ -12,7 +13,7 @@ import translationWeather from '../../common/translation-weather.json';
 export class WeatherTodayComponent implements OnInit {
 
   date: Date = new Date();
-  cloudyToday = 'sun';
+  cloudyToday = '';
   temperature: number | string = '';
   humidity: number | string = '';
   feelsLike: number | string = '';
@@ -21,8 +22,16 @@ export class WeatherTodayComponent implements OnInit {
   sky = '';
   windSpeed = '';
   windDirection = 'south';
+  weather: any;
+  lan = 'en';
+  feelsLikeText = '';
+  humidityText = '';
 
-  constructor() { }
+  constructor(private change: SwitchLangServices) {
+    this.change.change.subscribe(lan => {
+      this.switchLan(lan);
+    })
+  }
 
   ngOnInit(): void {
     interval(1000)
@@ -32,13 +41,20 @@ export class WeatherTodayComponent implements OnInit {
   }
 
   getOneDayWeather(weather) {
+    if (!weather) {
+      return;
+    }
+
+    const weatherId = weather.weather[0].id;
     this.temperature = Math.round(weather.main.temp);
     this.humidity = Math.round(weather.main.humidity);
     this.feelsLike = Math.round(weather.main.feels_like);
-    this.country = countries[weather.sys.country].en;
-    this.city = weather.name;
-    this.sky = translationWeather.en.weather[weather.weather[0].id];
-    this.windSpeed = `${Math.round(weather.wind.speed)} ${translationWeather.en.ms}`;
+    this.country = countries[weather.sys.country]?.[this.lan] || '';
+    this.city = weather.city[this.lan];
+    this.sky = translationWeather[this.lan].weather[weatherId];
+    this.windSpeed = `${Math.round(weather.wind.speed)} ${translationWeather[this.lan].ms}`;
+    this.feelsLikeText = translationWeather[this.lan].feel;
+    this.humidityText = translationWeather[this.lan].humidity;
     const { deg } = weather.wind;
 
     if (deg > 135 && deg < 226) {
@@ -53,6 +69,35 @@ export class WeatherTodayComponent implements OnInit {
       this.windDirection = 'east';
     }
 
-    console.log(weather);
+    if (weatherId >= 200 && weatherId <= 233) {
+      this.cloudyToday = 'thunder'
+    }
+
+    if (weatherId >= 300 && weatherId <= 522) {
+      this.cloudyToday = 'rain'
+    }
+
+    if (weatherId >= 600 && weatherId <= 623) {
+      this.cloudyToday = 'snow'
+    }
+
+    if (weatherId >= 700 && weatherId <= 751) {
+      this.cloudyToday = 'cloudy'
+    }
+
+    if (weatherId >= 801 && weatherId <= 900) {
+      this.cloudyToday = 'party-cloudy'
+    }
+
+    if (weatherId === 800) {
+      this.cloudyToday = 'sun'
+    }
+
+    this.weather = weather;
+  }
+
+  switchLan(lan) {
+    this.lan = lan;
+    this.getOneDayWeather(this.weather);
   }
 }

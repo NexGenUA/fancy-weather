@@ -4,7 +4,7 @@
     <span class="country">{{ country }}</span>
   </div>
   <div class="date-time" *ngIf="city">
-    <span class="date">{{ date | date: 'E dd MMMM' }}</span>
+    <span class="date">{{ date | date: 'E dd MMMM': '': lan }}</span>
     <span class="time">{{ date | date: 'HH:mm:ss' }}</span>
   </div>
   <div class="weather-info">
@@ -17,9 +17,9 @@
         <app-weather-icons *ngIf="temperature" [weather]="cloudyToday"></app-weather-icons>
       </span>
       <span class="info-item sky" *ngIf="sky">{{ sky }}</span>
-      <span class="info-item feels" *ngIf="feelsLike">Feels like: {{ feelsLike }}°</span>
+      <span class="info-item feels" *ngIf="feelsLike">{{ feelsLikeText }} {{ feelsLike }}°</span>
       <span class="info-item wind" *ngIf="windSpeed">{{ windDirection }}: {{ windSpeed }}</span>
-      <span class="info-item humidity">{{ humidity ? 'Humidity: ' + humidity + '%' : ''}}</span>
+      <span class="info-item humidity" *ngIf="humidity">{{ humidityText }} {{ humidity }}%</span>
     </div>
   </div>
 </div>

@@ -9,16 +9,24 @@
         <i class="arrow_down material-icons">keyboard_arrow_down</i>
       </button>
       <div class="languages-list" [class.show-list]="showList" (click)="changeLanguage($event)">
-        <span class="lang" [class.selected]="'EN' === currentLanguage">EN</span>
-        <span class="lang" [class.selected]="'RU' === currentLanguage">RU</span>
-        <span class="lang" [class.selected]="'BE' === currentLanguage">BE</span>
+        <span class="lang" [class.selected]="'en' === currentLanguage.toLowerCase()">EN</span>
+        <span class="lang" [class.selected]="'ru' === currentLanguage.toLowerCase()">RU</span>
+        <span class="lang" [class.selected]="'be' === currentLanguage.toLowerCase()">BE</span>
       </div>
     </div>
     <button class="btn control-block__fahrenheit" id="fahrenheit">°F</button>
     <button class="btn control-block__celsius" id="celsius">°C</button>
   </div>
+  <div class="error" *ngIf="error">
+    <span class="error-span">{{ error }}</span>
+  </div>
   <div class="control-block__search-block">
-    <input class="control-block__item control-block__input" [(ngModel)]="cityName" type="text" placeholder="enter city name">
-    <button class="control-block__item control-block__search" (click)="getWeather()">search</button>
+    <input class="control-block__item control-block__input"
+           [(ngModel)]="cityName"
+           (keydown.enter)="getWeather()"
+           type="text"
+           [placeholder]="placeholder"
+    >
+    <button class="control-block__item control-block__search" (click)="getWeather()">{{ search }}</button>
   </div>
 </div>

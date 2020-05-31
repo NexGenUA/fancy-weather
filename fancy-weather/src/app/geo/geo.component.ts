@@ -4,6 +4,8 @@ import { config } from '../../common/config';
 import { coordsService } from '../services/coords.services';
 import { flyTo } from '../services/fly-to.services';
 import { showLatLonServices } from '../services/show-lat-lon.services';
+import { SwitchLangServices } from '../services/switch-lang.services';
+import translationWeather from '../../common/translation-weather.json';
 
 const { MAPBOX_KEY, IP_INFO_TOKEN } = config;
 (mapboxgl as any).accessToken = MAPBOX_KEY;
@@ -19,14 +21,23 @@ export class GeoComponent implements OnInit {
   map: any;
   latitude = '';
   longitude = '';
+  lan = 'en';
+  latitudeText = 'Latitude';
+  longitudeText = 'Longitude';
+
+  constructor(private change: SwitchLangServices) {
+    this.change.change.subscribe(lan => {
+      this.switchLan(lan);
+    })
+  }
 
   ngOnInit(): void {
 
-    // this.map = new mapboxgl.Map({
-    //   container: 'map-box',
-    //   style: 'mapbox://styles/mapbox/streets-v11',
-    //   zoom: 11,
-    // });
+    this.map = new mapboxgl.Map({
+      container: 'map-box',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      zoom: 11,
+    });
 
     const options = {
       enableHighAccuracy: true,
@@ -51,7 +62,7 @@ export class GeoComponent implements OnInit {
         });
     };
 
-    // navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.getCurrentPosition(success, error, options);
 
     coordsService.subscribe(this);
     showLatLonServices.subscribe(this);
@@ -64,5 +75,11 @@ export class GeoComponent implements OnInit {
   getDMS(coords) {
     this.latitude = coords.latitude;
     this.longitude = coords.longitude;
+  }
+
+  switchLan(lan) {
+    this.lan = lan;
+    this.latitudeText = translationWeather[this.lan].lat;
+    this.longitudeText = translationWeather[this.lan].lng;
   }
 }
