@@ -1,4 +1,4 @@
-import { convertToDMS } from './convert-to-dms.service';
+import { convertToDMS } from '../../common/convert-to-dms';
 
 export const showLatLonServices = {
 

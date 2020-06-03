@@ -4,6 +4,7 @@ import { coordsService } from '../services/coords.services';
 import { SwitchLangServices } from '../services/switch-lang.services';
 const { OPEN_CAGE_KEY, FLICKR_KEY } = config;
 import translationWeather from '../../common/translation-weather.json';
+import { SwitchDegreeService } from '../services/switch-degree.service';
 
 @Component({
   selector: 'app-control-block',
@@ -15,19 +16,22 @@ export class ControlBlockComponent implements OnInit {
   currentLanguage = 'EN';
   showList = false;
   placeholder = 'Enter city';
-  lan = 'en';
+  lan = localStorage.getItem('lan') || 'en';
   search = 'search';
   error: string;
+  fahrenheit = localStorage.getItem('fahrenheit') === 'f';
 
   @Output() changeBackground: EventEmitter<string> = new EventEmitter<string>();
 
   ngOnInit(): void {
+    this.change.switchLan(this.lan);
+    this.currentLanguage = this.lan;
   }
 
-  constructor(private change: SwitchLangServices) {
+  constructor(private change: SwitchLangServices, private switchDegree: SwitchDegreeService) {
     this.change.change.subscribe(lan => {
       this.switchLan(lan);
-    })
+    });
   }
 
 
@@ -53,6 +57,7 @@ export class ControlBlockComponent implements OnInit {
       this.currentLanguage = lan;
       this.showList = false;
       this.change.switchLan(lan);
+      localStorage.setItem('lan', lan);
     }
   }
 
@@ -79,5 +84,11 @@ export class ControlBlockComponent implements OnInit {
     this.placeholder = translationWeather[this.lan].placeholder;
     this.search = translationWeather[this.lan].search;
     this.error = this.error ? translationWeather[this.lan].error : '';
+  }
+
+  changeDegree(degree) {
+    this.fahrenheit = degree !== 'c';
+    localStorage.setItem('fahrenheit', degree);
+    this.switchDegree.switchDegree(degree);
   }
 }

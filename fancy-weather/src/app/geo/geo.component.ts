@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { config } from '../../common/config';
 import { coordsService } from '../services/coords.services';
-import { flyTo } from '../services/fly-to.services';
+import { flyTo } from '../../common/fly-to';
 import { showLatLonServices } from '../services/show-lat-lon.services';
 import { SwitchLangServices } from '../services/switch-lang.services';
 import translationWeather from '../../common/translation-weather.json';
@@ -21,18 +21,17 @@ export class GeoComponent implements OnInit {
   map: any;
   latitude = '';
   longitude = '';
-  lan = 'en';
+  lan = localStorage.getItem('lan') || 'en';
   latitudeText = 'Latitude';
   longitudeText = 'Longitude';
 
   constructor(private change: SwitchLangServices) {
     this.change.change.subscribe(lan => {
       this.switchLan(lan);
-    })
+    });
   }
 
   ngOnInit(): void {
-
     this.map = new mapboxgl.Map({
       container: 'map-box',
       style: 'mapbox://styles/mapbox/streets-v11',

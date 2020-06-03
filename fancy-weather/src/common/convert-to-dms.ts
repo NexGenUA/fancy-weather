@@ -12,7 +12,7 @@ export const convertToDMS = (src: number[]): object => {
 
     const s = Math.floor(n);
 
-    return `${d}°${m}'${s}"`;
+    return `${d}°${m}′${s}′′`;
   };
 
   const ns = src[0] > 0 ? 'N' : 'S';

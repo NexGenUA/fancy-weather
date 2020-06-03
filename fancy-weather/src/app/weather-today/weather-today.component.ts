@@ -4,6 +4,8 @@ import { weatherOneDay } from '../services/weather-one-day.services';
 import countries from '../../common/countries.json';
 import translationWeather from '../../common/translation-weather.json';
 import { SwitchLangServices } from '../services/switch-lang.services';
+import { getSky } from '../../common/get-sky';
+import { SwitchDegreeService } from '../services/switch-degree.service';
 
 @Component({
   selector: 'app-weather-today',
@@ -14,7 +16,7 @@ export class WeatherTodayComponent implements OnInit {
 
   date: Date = new Date();
   cloudyToday = '';
-  temperature: number | string = '';
+  temperature: number;
   humidity: number | string = '';
   feelsLike: number | string = '';
   city = '';
@@ -23,19 +25,34 @@ export class WeatherTodayComponent implements OnInit {
   windSpeed = '';
   windDirection = 'south';
   weather: any;
-  lan = 'en';
+  lan = localStorage.getItem('lan') || 'en';
   feelsLikeText = '';
   humidityText = '';
+  fahrenheit = localStorage.getItem('fahrenheit') || 'c';
+  newOffset: number;
 
-  constructor(private change: SwitchLangServices) {
+  constructor(private change: SwitchLangServices, private switchDegree: SwitchDegreeService) {
     this.change.change.subscribe(lan => {
       this.switchLan(lan);
-    })
+    });
+    this.switchDegree.switch.subscribe(degree => {
+      this.newDegree(degree);
+    });
   }
 
   ngOnInit(): void {
     interval(1000)
-      .subscribe(() => this.date = new Date());
+      .subscribe(() => {
+        const date = new Date();
+        const offset = date.getTimezoneOffset() / 60;
+
+        if (this.newOffset) {
+          date.setHours(date.getHours() + offset);
+          date.setMinutes(date.getMinutes() + this.newOffset);
+        }
+
+        this.date = date;
+      });
 
     weatherOneDay.subscribe(this);
   }
@@ -44,6 +61,8 @@ export class WeatherTodayComponent implements OnInit {
     if (!weather) {
       return;
     }
+
+    this.newOffset = weather.timezone / 60;
 
     const weatherId = weather.weather[0].id;
     this.temperature = Math.round(weather.main.temp);
@@ -69,29 +88,7 @@ export class WeatherTodayComponent implements OnInit {
       this.windDirection = 'east';
     }
 
-    if (weatherId >= 200 && weatherId <= 233) {
-      this.cloudyToday = 'thunder'
-    }
-
-    if (weatherId >= 300 && weatherId <= 522) {
-      this.cloudyToday = 'rain'
-    }
-
-    if (weatherId >= 600 && weatherId <= 623) {
-      this.cloudyToday = 'snow'
-    }
-
-    if (weatherId >= 700 && weatherId <= 751) {
-      this.cloudyToday = 'cloudy'
-    }
-
-    if (weatherId >= 801 && weatherId <= 900) {
-      this.cloudyToday = 'party-cloudy'
-    }
-
-    if (weatherId === 800) {
-      this.cloudyToday = 'sun'
-    }
+    this.cloudyToday = getSky(+weatherId);
 
     this.weather = weather;
   }
@@ -99,5 +96,9 @@ export class WeatherTodayComponent implements OnInit {
   switchLan(lan) {
     this.lan = lan;
     this.getOneDayWeather(this.weather);
+  }
+
+  newDegree(degree) {
+    this.fahrenheit = degree;
   }
 }

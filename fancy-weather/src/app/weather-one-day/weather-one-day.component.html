@@ -1,0 +1,7 @@
+<div class="one-day">
+  <span>{{ day.date | date: 'EEEE': '': lan | uppercase }}</span>
+  <div class="degree-and-cloudy">
+    <app-weather-icons class="icon" [weather]="day.cloudy"></app-weather-icons>
+    <span class="degree">{{ day.degree | temp: fahrenheit}}</span>
+  </div>
+</div>

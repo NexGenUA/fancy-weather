@@ -14,8 +14,18 @@
         <span class="lang" [class.selected]="'be' === currentLanguage.toLowerCase()">BE</span>
       </div>
     </div>
-    <button class="btn control-block__fahrenheit" id="fahrenheit">°F</button>
-    <button class="btn control-block__celsius" id="celsius">°C</button>
+    <button [class.degree-active]="fahrenheit"
+            class="btn control-block__fahrenheit"
+            id="fahrenheit"
+            (click)="changeDegree($event.target.dataset.degree)"
+            data-degree="f"
+    >°F</button>
+    <button [class.degree-active]="!fahrenheit"
+            class="btn control-block__celsius"
+            id="celsius"
+            (click)="changeDegree($event.target.dataset.degree)"
+            data-degree="c"
+    >°C</button>
   </div>
   <div class="error" *ngIf="error">
     <span class="error-span">{{ error }}</span>

@@ -46,6 +46,10 @@ $background_hover: rgb(160, 150, 140);
     &:active {
       filter: brightness(1);
     }
+
+    &.degree-active {
+      background-color: rgba(140, 255, 140, .3);
+    }
   }
 
   & .control-block__fahrenheit,

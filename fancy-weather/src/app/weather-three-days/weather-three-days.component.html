@@ -1,11 +1,7 @@
 <div class="container">
-  <div class="day-1">
-    <span class="degree day-1">5</span>
-  </div>
-  <div class="day-2">
-    <span class="degree day-2">7</span>
-  </div>
-  <div class="day-3">
-    <span class="degree day-3">11</span>
-  </div>
+  <app-weather-one-day
+    *ngFor="let day of weather"
+    [day]="day"
+    [lan]="lan"
+  ></app-weather-one-day>
 </div>

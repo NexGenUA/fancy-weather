@@ -9,7 +9,7 @@
   </div>
   <div class="weather-info">
     <div class="temperature" *ngIf="temperature">
-      <span class="degrees">{{ temperature }}</span>
+      <span class="degrees">{{ temperature | temp: fahrenheit }}</span>
       <span class="symbol">°</span>
     </div>
     <div class="info">
