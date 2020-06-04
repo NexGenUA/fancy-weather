@@ -21,10 +21,19 @@
   max-width: 1600px;
   margin: 30px auto;
   padding: 0 30px;
+
+  @media screen and (max-width: 768px) {
+    margin: 5px auto;
+    padding: 0 5px;
+  }
 }
 
 .container {
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 1023px) {
+    flex-direction: column;
+  }
 }
 

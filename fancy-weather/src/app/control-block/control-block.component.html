@@ -1,31 +1,35 @@
 <div class="control-block">
   <div class="control-block__switch">
-    <button class="btn control-block__refresh" id="refresh" (click)="refresh()">
-      <span class="material-icons">autorenew</span>
-    </button>
-    <div class="control-block__languages-container">
-      <button class="btn control-block__languages" id="languages" (click)="showListBlock()">
-        <span>{{ currentLanguage }}</span>
-        <i class="arrow_down material-icons">keyboard_arrow_down</i>
+    <div class="left">
+      <button class="btn control-block__refresh" id="refresh" (click)="refresh()">
+        <span class="material-icons">autorenew</span>
       </button>
-      <div class="languages-list" [class.show-list]="showList" (click)="changeLanguage($event)">
-        <span class="lang" [class.selected]="'en' === currentLanguage.toLowerCase()">EN</span>
-        <span class="lang" [class.selected]="'ru' === currentLanguage.toLowerCase()">RU</span>
-        <span class="lang" [class.selected]="'be' === currentLanguage.toLowerCase()">BE</span>
+      <div class="control-block__languages-container">
+        <button class="btn control-block__languages" id="languages" (click)="showListBlock()">
+          <span>{{ currentLanguage }}</span>
+          <i class="arrow_down material-icons">keyboard_arrow_down</i>
+        </button>
+        <div class="languages-list" [class.show-list]="showList" (click)="changeLanguage($event)">
+          <span class="lang" [class.selected]="'en' === currentLanguage.toLowerCase()">EN</span>
+          <span class="lang" [class.selected]="'ru' === currentLanguage.toLowerCase()">RU</span>
+          <span class="lang" [class.selected]="'be' === currentLanguage.toLowerCase()">BE</span>
+        </div>
       </div>
     </div>
-    <button [class.degree-active]="fahrenheit"
-            class="btn control-block__fahrenheit"
-            id="fahrenheit"
-            (click)="changeDegree($event.target.dataset.degree)"
-            data-degree="f"
-    >°F</button>
-    <button [class.degree-active]="!fahrenheit"
-            class="btn control-block__celsius"
-            id="celsius"
-            (click)="changeDegree($event.target.dataset.degree)"
-            data-degree="c"
-    >°C</button>
+    <div class="right">
+      <button [class.degree-active]="fahrenheit"
+              class="btn control-block__fahrenheit"
+              id="fahrenheit"
+              (click)="changeDegree($event.target.dataset.degree)"
+              data-degree="f"
+      >°F</button>
+      <button [class.degree-active]="!fahrenheit"
+              class="btn control-block__celsius"
+              id="celsius"
+              (click)="changeDegree($event.target.dataset.degree)"
+              data-degree="c"
+      >°C</button>
+    </div>
   </div>
   <div class="error" *ngIf="error">
     <span class="error-span">{{ error }}</span>

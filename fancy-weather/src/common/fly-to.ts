@@ -4,10 +4,13 @@ import { weatherOneDay } from '../app/services/weather-one-day.service';
 import { forecastService } from '../app/services/get-forecast.service';
 import { changeBackground } from '../app/services/change-background-url.service';
 import { getTags } from './get-tags';
+import { preloader } from './preloader';
 
 const { WEATHER_KEY, YANDEX_KEY } = config;
 
 export const flyTo = async (coords, map, marker) => {
+  const loader = preloader();
+
   const weatherUrl = new URL('https://api.openweathermap.org/data/2.5/weather?lat=');
 
   const json = await fetch(`${weatherUrl}${coords[1]}&lon=${coords[0]}&appid=${WEATHER_KEY}&units=metric`);
@@ -84,4 +87,5 @@ export const flyTo = async (coords, map, marker) => {
     essential: true
     });
   document.getElementById('wrap-app').classList.remove('change');
+  loader.remove();
 };

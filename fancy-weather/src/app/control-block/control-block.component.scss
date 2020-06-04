@@ -89,6 +89,11 @@ $background_hover: rgb(160, 150, 140);
   &.loading {
     animation: loading 2s linear infinite;
   }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 .control-block__search-block {
@@ -117,6 +122,10 @@ $background_hover: rgb(160, 150, 140);
     & .btn:active {
       background-color: $background-0_5;
     }
+  }
+
+  @media screen and (max-width: 768px) {
+    display: none;
   }
 }
 
@@ -173,4 +182,8 @@ $background_hover: rgb(160, 150, 140);
   border-radius: 5px;
   color: white;
   font-weight: 500;
+}
+
+.right, .left {
+  display: flex;
 }

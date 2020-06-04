@@ -5,6 +5,7 @@ import translationWeather from '../../common/translation-weather.json';
 import { SwitchDegreeService } from '../services/switch-degree.service';
 import { changeBackground } from '../services/change-background-url.service';
 import { getWeatherService } from '../services/get-weather.service';
+import { preloader } from '../../common/preloader';
 
 @Component({
   selector: 'app-control-block',
@@ -72,6 +73,7 @@ export class ControlBlockComponent implements OnInit {
   }
 
   async refresh() {
+    const loader = preloader();
     document.getElementById('wrap-app').classList.add('change');
     const tags = localStorage.getItem('tags') || 'day, summer';
     console.log('%c%s', 'color: green; font: 1.1rem/1 Tahoma;', 'Параметры запроса картинки: ' + tags.replace(/,/g, ' '));
@@ -80,6 +82,7 @@ export class ControlBlockComponent implements OnInit {
     await getImage.blob();
     this.changeBackground.emit(url);
     document.getElementById('wrap-app').classList.remove('change');
+    loader.remove();
   }
 
   switchLan(lan) {
