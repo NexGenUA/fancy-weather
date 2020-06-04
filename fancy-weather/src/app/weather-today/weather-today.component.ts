@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
-import { weatherOneDay } from '../services/weather-one-day.services';
+import { weatherOneDay } from '../services/weather-one-day.service';
 import countries from '../../common/countries.json';
 import translationWeather from '../../common/translation-weather.json';
 import { SwitchLangServices } from '../services/switch-lang.services';
@@ -88,7 +88,7 @@ export class WeatherTodayComponent implements OnInit {
       this.windDirection = 'east';
     }
 
-    this.cloudyToday = getSky(+weatherId);
+    this.cloudyToday = getSky(+weatherId, this.newOffset);
 
     this.weather = weather;
   }

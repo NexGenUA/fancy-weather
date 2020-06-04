@@ -3,7 +3,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { config } from '../../common/config';
 import { coordsService } from '../services/coords.services';
 import { flyTo } from '../../common/fly-to';
-import { showLatLonServices } from '../services/show-lat-lon.services';
+import { showLatLonServices } from '../services/show-lat-lon.service';
 import { SwitchLangServices } from '../services/switch-lang.services';
 import translationWeather from '../../common/translation-weather.json';
 

@@ -50,7 +50,7 @@ export const forecastService = {
       const sky = Object.entries(avgSky);
       sky.sort((a: any, b: any) => b[1] - a[1]);
 
-      data.cloudy = getSky(+sky[0][0]);
+      data.cloudy = getSky(+sky[0][0], null);
       data.degree = Math.round(degrees.reduce((cur, val) => cur + val) / degrees.length);
 
       return data;

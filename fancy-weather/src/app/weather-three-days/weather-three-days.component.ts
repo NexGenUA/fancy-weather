@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { forecastService } from '../services/get-forecast.services';
+import { forecastService } from '../services/get-forecast.service';
 
 export interface WeatherOneDay {
   date: string;

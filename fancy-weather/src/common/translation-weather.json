@@ -46,7 +46,8 @@
       "804": "Пахмурна",
       "900": "Невядомыя ападкі"
     },
-    "error": "Не знойдзенаа"
+    "error": "Не знойдзенаа",
+    "lost": "Сувязь страчана"
   },
   "ru": {
     "placeholder": "Введите город",
@@ -95,7 +96,8 @@
       "804": "Пасмурно",
       "900": "Неизвестные осадки"
     },
-    "error": "Не найдено"
+    "error": "Не найдено",
+    "lost": "Ошибка соединения"
   },
   "en": {
     "placeholder": "Enter city",
@@ -144,7 +146,8 @@
       "804": "Overcast clouds",
       "900": "Unknown Precipitation"
     },
-    "error": "Not found"
+    "error": "Not found",
+    "lost": "Connection error"
   }
 }
 

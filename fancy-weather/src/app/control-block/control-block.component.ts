@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { config } from '../../common/config';
 import { coordsService } from '../services/coords.services';
 import { SwitchLangServices } from '../services/switch-lang.services';
-const { OPEN_CAGE_KEY, FLICKR_KEY } = config;
 import translationWeather from '../../common/translation-weather.json';
 import { SwitchDegreeService } from '../services/switch-degree.service';
+import { changeBackground } from '../services/change-background-url.service';
+import { getWeatherService } from '../services/get-weather.service';
 
 @Component({
   selector: 'app-control-block',
@@ -35,19 +35,25 @@ export class ControlBlockComponent implements OnInit {
   }
 
 
-  getWeather() {
+  async getWeather() {
     this.error = '';
-    fetch(`https://api.opencagedata.com/geocode/v1/json?q=${this.cityName}&key=${OPEN_CAGE_KEY}&limit=1`)
-      .then(res => res.json())
-      .then(res => {
-        if (!res.results.length) {
-          this.error = translationWeather[this.lan].error;
-          return;
-        }
-        const [latitude, longitude] = Object.values(res.results[0].geometry);
-        coordsService.setCoords([longitude, latitude]);
-        this.cityName = '';
-      });
+    document.getElementById('wrap-app').classList.add('change');
+    const coords: any = await getWeatherService(this.cityName);
+
+    if (coords === 404) {
+      this.error = translationWeather[this.lan].error;
+      document.getElementById('wrap-app').classList.remove('change');
+      return;
+    }
+
+    if (coords === 500) {
+      this.error = translationWeather[this.lan].lost;
+      document.getElementById('wrap-app').classList.remove('change');
+      return;
+    }
+
+    coordsService.setCoords(coords);
+    this.cityName = '';
   }
 
   changeLanguage(event) {
@@ -65,18 +71,15 @@ export class ControlBlockComponent implements OnInit {
     this.showList = !this.showList;
   }
 
-  refresh() {
-    const apiUrl = 'https://www.flickr.com/services/rest/?method=flickr.photos.search';
-    const tags = 'day,rain,summer';
-    fetch(`${apiUrl}&api_key=${FLICKR_KEY}&tags=${tags}&tag_mode=all&extras=url_h&format=json&nojsoncallback=1`)
-      .then(res => res.json())
-      .then(res => {
-        if (res.stat === 'ok') {
-          const photos = res.photos.photo.filter(f => f.url_h && f.width_h > f.height_h);
-          const idx = Math.floor(Math.random() * photos.length);
-          this.changeBackground.emit(photos[idx].url_h);
-        }
-      });
+  async refresh() {
+    document.getElementById('wrap-app').classList.add('change');
+    const tags = localStorage.getItem('tags') || 'day, summer';
+    console.log('%c%s', 'color: green; font: 1.1rem/1 Tahoma;', 'Параметры запроса картинки: ' + tags.replace(/,/g, ' '));
+    const url = await changeBackground(tags);
+    const getImage = await fetch(url);
+    await getImage.blob();
+    this.changeBackground.emit(url);
+    document.getElementById('wrap-app').classList.remove('change');
   }
 
   switchLan(lan) {

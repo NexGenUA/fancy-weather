@@ -1,8 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="945px" height="1004px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-viewBox="0 0 945 1004"
- xmlns:xlink="http://www.w3.org/1999/xlink">
-  <path fill="#000000" d="M814 884l-683 0c-38,0 -69,-31 -69,-69l0 -681c0,-38 31,-69 69,-69l683 0c38,0 69,31 69,69l0 805 -69 -55z"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="mask.svg"
+   id="svg22"
+   viewBox="0 0 821 874"
+   style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+   version="1.1"
+   height="874"
+   width="821"
+   xml:space="preserve"><metadata
+   id="metadata28"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs26" /><sodipodi:namedview
+   inkscape:current-layer="svg22"
+   inkscape:window-maximized="0"
+   inkscape:window-y="0"
+   inkscape:window-x="0"
+   inkscape:cy="437"
+   inkscape:cx="172.5193"
+   inkscape:zoom="0.82569721"
+   showgrid="false"
+   id="namedview24"
+   inkscape:window-height="987"
+   inkscape:window-width="1795"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0"
+   guidetolerance="10"
+   gridtolerance="10"
+   objecttolerance="10"
+   borderopacity="1"
+   bordercolor="#666666"
+   pagecolor="#ffffff" />
+  <path
+   sodipodi:nodetypes="csssssscc"
+   id="path20"
+   d="M 752,819 H 39 C 1,819 0,818 0,780 V 39 C 0,1 1,0 39,0 h 743 c 38,0 39,1 39,39 v 835 z"
+   fill="#000000" />
 </svg>
