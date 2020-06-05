@@ -23,7 +23,7 @@ $text-color-2: rgb(250, 250, 250);
   @media screen and (max-width: 768px) {
     padding: 5px;
     margin-top: 5px;
-    height: 70vw;
+    height: calc(68vw + 10px);
   }
 }
 
@@ -67,7 +67,7 @@ $text-color-2: rgb(250, 250, 250);
   margin-left: 15px;
 
   @media screen and (max-width: 768px) {
-      font-size: 4vw;
+    font-size: 4vw;
   }
 
   & .time {
@@ -140,7 +140,7 @@ $text-color-2: rgb(250, 250, 250);
 
   @media screen and (max-width: 768px) {
     margin-top: 25px;
-    margin-bottom: -20px;
+    margin-bottom: -10px;
   }
 }
 

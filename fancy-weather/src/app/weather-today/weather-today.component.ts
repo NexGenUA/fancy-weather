@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { interval } from 'rxjs';
 import { weatherOneDay } from '../services/weather-one-day.service';
 import countries from '../../common/countries.json';
@@ -17,19 +17,21 @@ export class WeatherTodayComponent implements OnInit {
   date: Date = new Date();
   cloudyToday = '';
   temperature: number;
-  humidity: number | string = '';
-  feelsLike: number | string = '';
+  humidity: number;
+  feelsLike: number;
   city = '';
   country = '';
   sky = '';
   windSpeed = '';
-  windDirection = 'south';
   weather: any;
   lan = localStorage.getItem('lan') || 'en';
+  windDirection = translationWeather[this.lan].south;
   feelsLikeText = '';
   humidityText = '';
   fahrenheit = localStorage.getItem('fahrenheit') || 'c';
   newOffset: number;
+
+  @Output() weatherText: EventEmitter<object> = new EventEmitter<object>();
 
   constructor(private change: SwitchLangServices, private switchDegree: SwitchDegreeService) {
     this.change.change.subscribe(lan => {
@@ -77,20 +79,29 @@ export class WeatherTodayComponent implements OnInit {
     const { deg } = weather.wind;
 
     if (deg > 135 && deg < 226) {
-      this.windDirection = 'north';
-    }
-
-    if (deg > 225 && deg < 270) {
-      this.windDirection = 'west';
-    }
-
-    if (deg > 45 && deg < 136) {
-      this.windDirection = 'east';
+      this.windDirection = translationWeather[this.lan].north;
+    } else if (deg > 225 && deg < 270) {
+      this.windDirection = translationWeather[this.lan].west;
+    } else if (deg > 45 && deg < 136) {
+      this.windDirection = translationWeather[this.lan].east;
+    } else {
+      this.windDirection = translationWeather[this.lan].south;
     }
 
     this.cloudyToday = getSky(+weatherId, this.newOffset);
 
     this.weather = weather;
+    this.weatherText.emit({
+      temperature: this.temperature,
+      sky: this.sky,
+      humidityText: this.humidityText,
+      humidity: this.humidity,
+      feelsLike: this.feelsLike,
+      feelsLikeText: this.feelsLikeText,
+      windSpeed: this.windSpeed,
+      windDirection: this.windDirection,
+      fahrenheit: this.fahrenheit
+    });
   }
 
   switchLan(lan) {

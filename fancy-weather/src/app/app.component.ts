@@ -9,6 +9,7 @@ export class AppComponent{
   title = 'fancy-weather';
   coords: Array<number>;
   background: string;
+  currentWeatherText: object;
 
   switchBackground(backgroundUrl) {
     const img = new Image();
@@ -24,5 +25,9 @@ export class AppComponent{
     };
 
     img.src = backgroundUrl;
+  }
+
+  updateWeatherText(weather) {
+    this.currentWeatherText = weather;
   }
 }

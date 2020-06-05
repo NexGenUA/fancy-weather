@@ -3,10 +3,13 @@
   <div class="container-app">
     <app-control-block
       (changeBackground)="switchBackground($event)"
+      [speachText]="currentWeatherText"
     ></app-control-block>
     <div class="container">
       <div class="weather">
-        <app-weather-today></app-weather-today>
+        <app-weather-today
+          (weatherText)="updateWeatherText($event)"
+        ></app-weather-today>
         <app-weather-three-days></app-weather-three-days>
       </div>
       <app-geo></app-geo>

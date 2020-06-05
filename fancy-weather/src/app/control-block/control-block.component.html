@@ -44,9 +44,16 @@
            type="text"
            [placeholder]="placeholder"
     >
+    <div class="icons-block">
+      <span class="material-icons speaker"
+            [class.on-speech]="isSpeak"
+            (click)="speechWeather()"
+      >campaign</span>
+    </div>
     <button class="control-block__item control-block__search" (click)="getWeather()">{{ search }}</button>
   </div>
 </div>
+
 <div class="control-block mobile">
   <div class="control-block__search-block mobile">
     <input class="control-block__item control-block__input"

@@ -46,8 +46,14 @@
       "804": "Пахмурна",
       "900": "Невядомыя ападкі"
     },
+    "speech": ["Надворъе на сёння", "тэмпература", "градусау", "адчуваецца як", "вецер", "метрау у секунду", "вільготнасць паветра", "працэнтау"],
     "error": "Не знойдзенаа",
-    "lost": "Сувязь страчана"
+    "lost": "Сувязь страчана",
+    "north": "паўночны",
+    "south": "паўднёвы",
+    "east": "усходні",
+    "west": "заходні",
+    "wrong": "некарэктнае значэнне"
   },
   "ru": {
     "placeholder": "Введите город",
@@ -96,8 +102,14 @@
       "804": "Пасмурно",
       "900": "Неизвестные осадки"
     },
+    "speech": ["погода на сегодня", "температура", "градусов", "ощущается как", "ветер", "метров в секунду", "влажность воздуха", "процентов"],
     "error": "Не найдено",
-    "lost": "Ошибка связи"
+    "lost": "Ошибка связи",
+    "north": "северный",
+    "south": "южный",
+    "east": "восточный",
+    "west": "западный",
+    "wrong": "некорректное значение"
   },
   "en": {
     "placeholder": "Enter city",
@@ -146,8 +158,14 @@
       "804": "Overcast clouds",
       "900": "Unknown Precipitation"
     },
+    "speech": ["weather for today", "temperature", "degrees", "feels like", "wind", "meters per second", "air humidity", "percent"],
     "error": "Not found",
-    "lost": "Connection error"
+    "lost": "Connection error",
+    "north": "north",
+    "south": "south",
+    "east": "east",
+    "west": "west",
+    "wrong": "incorrect value"
   }
 }
 

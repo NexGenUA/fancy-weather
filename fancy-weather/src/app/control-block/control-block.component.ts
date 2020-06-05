@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { coordsService } from '../services/coords.services';
 import { SwitchLangServices } from '../services/switch-lang.services';
 import translationWeather from '../../common/translation-weather.json';
@@ -6,6 +6,7 @@ import { SwitchDegreeService } from '../services/switch-degree.service';
 import { changeBackground } from '../services/change-background-url.service';
 import { getWeatherService } from '../services/get-weather.service';
 import { preloader } from '../../common/preloader';
+import { log } from 'util';
 
 @Component({
   selector: 'app-control-block',
@@ -21,12 +22,26 @@ export class ControlBlockComponent implements OnInit {
   search = 'search';
   error: string;
   fahrenheit = localStorage.getItem('fahrenheit') === 'f';
+  isSpeak = false;
+  msg;
+  synth;
+  synthLang = {
+    ru: 'ru-RU',
+    be: 'ru-RU',
+    en: 'en-EN'
+  };
 
   @Output() changeBackground: EventEmitter<string> = new EventEmitter<string>();
+  @Input() speachText: object;
 
   ngOnInit(): void {
     this.change.switchLan(this.lan);
     this.currentLanguage = this.lan;
+    window.onbeforeunload = () => {
+      if (this.isSpeak) {
+        this.stopSpeech();
+      }
+    };
   }
 
   constructor(private change: SwitchLangServices, private switchDegree: SwitchDegreeService) {
@@ -37,6 +52,18 @@ export class ControlBlockComponent implements OnInit {
 
 
   async getWeather() {
+    if (this.isSpeak) {
+      this.stopSpeech();
+    }
+
+    const city = this.cityName.trim();
+    const regexp = /[^\d\w\s-\.\,]/g;
+
+    if (!city || city.length < 2 || city === 'undefined' || regexp.test(city)){
+      this.error = translationWeather[this.lan].wrong;
+      return;
+    }
+
     this.error = '';
     document.getElementById('wrap-app').classList.add('change');
     const coords: any = await getWeatherService(this.cityName);
@@ -58,6 +85,10 @@ export class ControlBlockComponent implements OnInit {
   }
 
   changeLanguage(event) {
+    if (this.isSpeak) {
+      this.stopSpeech();
+    }
+
     const span = event.target;
     if (span.classList.contains('lang')) {
       const lan = span.innerHTML.toLowerCase();
@@ -93,8 +124,70 @@ export class ControlBlockComponent implements OnInit {
   }
 
   changeDegree(degree) {
+    if (this.isSpeak) {
+      this.stopSpeech();
+    }
+
     this.fahrenheit = degree !== 'c';
     localStorage.setItem('fahrenheit', degree);
     this.switchDegree.switchDegree(degree);
+  }
+
+  speechWeather() {
+
+    if (!this.synth) {
+      this.synth = speechSynthesis;
+    }
+
+    if (this.isSpeak) {
+      this.stopSpeech();
+      return;
+    }
+
+    const {
+      temperature,
+      sky,
+      humidity,
+      feelsLike,
+      windDirection,
+      windSpeed,
+    }: any = this.speachText;
+
+    let voices = [];
+
+    const switchDegree = t => Math.round((t * 9) / 5 + 32);
+
+    const speech = translationWeather[this.lan].speech;
+
+    const currentTemperature = this.fahrenheit ? switchDegree(temperature) : temperature;
+    const currentFeelsLike = this.fahrenheit ? switchDegree(feelsLike) : feelsLike;
+
+    const str = `
+      ${speech[0]}
+      ${speech[1]} ${currentTemperature} ${speech[2]}
+      ${sky}
+      ${speech[3]} ${currentFeelsLike} ${speech[2]}
+      ${speech[4]} ${windDirection} ${parseInt(windSpeed, 10)} ${speech[5]}
+      ${speech[6]} ${humidity} ${speech[7]}
+    `;
+
+    this.msg = new SpeechSynthesisUtterance();
+    this.msg.text = str;
+
+    this.msg.onend = () => {
+      this.isSpeak = false;
+    };
+
+    setTimeout(() => {
+      voices = this.synth.getVoices();
+      this.msg.voice = voices.find(voice => voice.lang === this.synthLang[this.lan]);
+      this.isSpeak = true;
+      this.synth.speak(this.msg);
+    }, 100);
+  }
+
+  stopSpeech() {
+    this.synth.cancel();
+    this.isSpeak = false;
   }
 }

@@ -142,6 +142,7 @@ $background_hover: rgb(160, 150, 140);
 }
 
 .control-block__search-block {
+  display: flex;
 
   & .control-block__item {
     @extend %style-btn;
@@ -159,6 +160,7 @@ $background_hover: rgb(160, 150, 140);
     text-transform: uppercase;
     border-radius:  0 5px 5px 0;
     padding: 0 10px;
+    position: relative;
 
     & .btn:hover {
       background-color: $background-0_7;
@@ -257,4 +259,26 @@ $background_hover: rgb(160, 150, 140);
 
 .right {
   order: 3;
+}
+
+.icons-block {
+  background-color: $background-0_1;
+  border-top: $border-button;
+  border-bottom: $border-button;
+  display: flex;
+  align-items: center;
+
+  .material-icons.speaker {
+    color: $text-color-2;
+    margin-right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      color: cornflowerblue;
+    }
+
+    &.on-speech {
+      color: rgb(100, 255, 100);
+    }
+  }
 }
