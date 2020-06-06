@@ -39,6 +39,9 @@ export class ControlBlockComponent implements OnInit {
   speechLang = this.recognitionLang[this.lan];
   recognitionEnd;
   changeLang = false;
+  fromMic = false;
+  lastSpeech = false;
+  speechTogether = false;
 
   @Output() changeBackground: EventEmitter<string> = new EventEmitter<string>();
   @Input() speachText: object;
@@ -95,6 +98,7 @@ export class ControlBlockComponent implements OnInit {
   }
 
   changeLanguage(event) {
+
     if (this.isSpeak) {
       this.stopSpeech();
     }
@@ -155,7 +159,6 @@ export class ControlBlockComponent implements OnInit {
   }
 
   speechWeather() {
-
     if (!this.synth) {
       this.synth = speechSynthesis;
     }
@@ -194,10 +197,20 @@ export class ControlBlockComponent implements OnInit {
 
     this.msg = new SpeechSynthesisUtterance();
     this.msg.text = str;
+    this.msg.volume = 1;
+
+
+    if (this.speechTogether) {
+      this.speechTogether = false;
+      this.microphoneOn();
+    }
 
     this.msg.onend = () => {
       this.isSpeak = false;
-      this.microphoneOn();
+      this.lastSpeech = true;
+      if (this.fromMic && !this.isMicOn) {
+        this.microphoneOn();
+      }
     };
 
     setTimeout(() => {
@@ -209,6 +222,7 @@ export class ControlBlockComponent implements OnInit {
   }
 
   stopSpeech() {
+    this.lastSpeech = true;
     this.synth.cancel();
     this.isSpeak = false;
   }
@@ -219,6 +233,7 @@ export class ControlBlockComponent implements OnInit {
       this.recognition.stop();
       this.recognition.removeEventListener('end', this.recognitionEnd);
       this.recognition = null;
+      this.fromMic = false;
       return;
     }
 
@@ -252,6 +267,9 @@ export class ControlBlockComponent implements OnInit {
 
     this.recognitionEnd = () => {
       if (this.isSpeak) {
+        if (this.isMicOn) {
+          this.recognition.start();
+        }
         return;
       }
 
@@ -260,16 +278,21 @@ export class ControlBlockComponent implements OnInit {
         const code = translationWeather[this.lan].codePhrase.toLowerCase();
         return inc.includes(code);
       })) {
-        this.speechWeather();
+        this.speechTogether = true;
         this.isMicOn = false;
-        this.recognition.removeEventListener('end', this.recognitionEnd);
-        this.recognition = null;
-        result.clear();
+        this.speechWeather();
         return;
       }
 
       if (this.isMicOn) {
         this.recognition.start();
+
+        if (this.lastSpeech) {
+          this.lastSpeech = false;
+          result.clear();
+          return;
+        }
+
         const city = ([...result][0] as string);
         if (city || city?.length > 1) {
           this.cityName = city;
@@ -281,5 +304,6 @@ export class ControlBlockComponent implements OnInit {
 
     this.recognition.addEventListener('end', this.recognitionEnd.bind(this));
     this.isMicOn = true;
+    this.fromMic = true;
   }
 }

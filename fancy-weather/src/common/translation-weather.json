@@ -54,7 +54,9 @@
     "east": "усходні",
     "west": "заходні",
     "wrong": "некарэктнае значэнне",
-    "codePhrase": "прагноз надвор"
+    "codePhrase": "прагноз надвор",
+    "up": "гучней",
+    "down": "цішэй"
   },
   "ru": {
     "placeholder": "Введите город",
@@ -111,7 +113,9 @@
     "east": "восточный",
     "west": "западный",
     "wrong": "некорректное значение",
-    "codePhrase": "прогноз погоды"
+    "codePhrase": "прогноз погоды",
+    "up": "громче",
+    "down": "тише"
   },
   "en": {
     "placeholder": "Enter city",
@@ -168,7 +172,9 @@
     "east": "east",
     "west": "west",
     "wrong": "incorrect value",
-    "codePhrase": "weather forecast"
+    "codePhrase": "weather forecast",
+    "up": "louder",
+    "down": "hash"
   }
 }
 
