@@ -268,17 +268,23 @@ $background_hover: rgb(160, 150, 140);
   display: flex;
   align-items: center;
 
-  .material-icons.speaker {
-    color: $text-color-2;
-    margin-right: 10px;
-    cursor: pointer;
+  .material-icons{
+    user-select: none;
 
-    &:hover {
-      color: cornflowerblue;
-    }
+    &.speaker,
+    &.mic {
+      color: $text-color-2;
+      margin-right: 5px;
+      cursor: pointer;
 
-    &.on-speech {
-      color: rgb(100, 255, 100);
+      &:hover {
+        color: cornflowerblue;
+      }
+
+      &.on-speech {
+        color: rgb(100, 255, 100);
+      }
     }
   }
+
 }

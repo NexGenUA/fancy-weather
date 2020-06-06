@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { forecastService } from '../services/get-forecast.service';
+import { SwitchLangServices } from '../services/switch-lang.services';
 
 export interface WeatherOneDay {
   date: string;
@@ -18,7 +19,11 @@ export class WeatherThreeDaysComponent implements OnInit {
 
   weather: WeatherOneDay[];
 
-  constructor() { }
+  constructor(private change: SwitchLangServices) {
+    this.change.change.subscribe(lan => {
+      this.lan = lan;
+    });
+  }
 
   ngOnInit(): void {
     forecastService.subscribe(this);

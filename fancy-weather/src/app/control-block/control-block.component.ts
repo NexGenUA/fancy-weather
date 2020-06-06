@@ -6,7 +6,6 @@ import { SwitchDegreeService } from '../services/switch-degree.service';
 import { changeBackground } from '../services/change-background-url.service';
 import { getWeatherService } from '../services/get-weather.service';
 import { preloader } from '../../common/preloader';
-import { log } from 'util';
 
 @Component({
   selector: 'app-control-block',
@@ -30,6 +29,16 @@ export class ControlBlockComponent implements OnInit {
     be: 'ru-RU',
     en: 'en-EN'
   };
+  recognition: any;
+  isMicOn = false;
+  recognitionLang = {
+    ru: 'ru-RU',
+    be: 'be-BE',
+    en: 'en-EN'
+  };
+  speechLang = this.recognitionLang[this.lan];
+  recognitionEnd;
+  changeLang = false;
 
   @Output() changeBackground: EventEmitter<string> = new EventEmitter<string>();
   @Input() speachText: object;
@@ -56,8 +65,8 @@ export class ControlBlockComponent implements OnInit {
       this.stopSpeech();
     }
 
-    const city = this.cityName.trim();
-    const regexp = /[^\d\w\s-\.\,]/g;
+    const city = this.cityName?.trim();
+    const regexp = /[^\dа-яёа-зй-шы-яіў\w\s-\.\,]/gi;
 
     if (!city || city.length < 2 || city === 'undefined' || regexp.test(city)){
       this.error = translationWeather[this.lan].wrong;
@@ -81,6 +90,7 @@ export class ControlBlockComponent implements OnInit {
     }
 
     coordsService.setCoords(coords);
+    this.change.switchLan(this.lan);
     this.cityName = '';
   }
 
@@ -96,6 +106,17 @@ export class ControlBlockComponent implements OnInit {
       this.showList = false;
       this.change.switchLan(lan);
       localStorage.setItem('lan', lan);
+
+      if (this.isMicOn) {
+        this.speechLang = this.recognitionLang[this.lan];
+        this.isMicOn = false;
+        this.recognition.removeEventListener('end', this.recognitionEnd);
+        this.recognition = null;
+        this.changeLang = true;
+        this.microphoneOn();
+      } else {
+        this.speechLang = this.recognitionLang[this.lan];
+      }
     }
   }
 
@@ -176,6 +197,7 @@ export class ControlBlockComponent implements OnInit {
 
     this.msg.onend = () => {
       this.isSpeak = false;
+      this.microphoneOn();
     };
 
     setTimeout(() => {
@@ -189,5 +211,75 @@ export class ControlBlockComponent implements OnInit {
   stopSpeech() {
     this.synth.cancel();
     this.isSpeak = false;
+  }
+
+  microphoneOn() {
+    if (this.isMicOn) {
+      this.isMicOn = false;
+      this.recognition.stop();
+      this.recognition.removeEventListener('end', this.recognitionEnd);
+      this.recognition = null;
+      return;
+    }
+
+    window.SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    this.recognition = new window.SpeechRecognition();
+    this.recognition.interimResults = true;
+    this.recognition.maxAlternatives = 20;
+    this.recognition.lang = this.speechLang;
+
+    const result = new Set();
+
+    this.recognition.addEventListener('result', e => {
+      [...e.results].forEach(el => {
+        if (el.isFinal) {
+          [...el].forEach(key => {
+           result.add(key.transcript.toLowerCase());
+          });
+        }
+      });
+    });
+
+    if (this.changeLang) {
+      this.changeLang = false;
+    } else {
+      this.recognition.start();
+    }
+
+    this.recognition.addEventListener('speechstart', () => {
+    });
+
+    this.recognitionEnd = () => {
+      if (this.isSpeak) {
+        return;
+      }
+
+      if ([...result].some(el => {
+        const inc = (el as string).toLowerCase();
+        const code = translationWeather[this.lan].codePhrase.toLowerCase();
+        return inc.includes(code);
+      })) {
+        this.speechWeather();
+        this.isMicOn = false;
+        this.recognition.removeEventListener('end', this.recognitionEnd);
+        this.recognition = null;
+        result.clear();
+        return;
+      }
+
+      if (this.isMicOn) {
+        this.recognition.start();
+        const city = ([...result][0] as string);
+        if (city || city?.length > 1) {
+          this.cityName = city;
+          this.getWeather();
+        }
+      }
+      result.clear();
+    };
+
+    this.recognition.addEventListener('end', this.recognitionEnd.bind(this));
+    this.isMicOn = true;
   }
 }
