@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import * as MapboxLanguage from '@mapbox/mapbox-gl-language';
 import { config } from '../../common/config';
 import { coordsService } from '../services/coords.services';
 import { flyTo } from '../../common/fly-to';
@@ -34,10 +35,17 @@ export class GeoComponent implements OnInit {
   ngOnInit(): void {
     this.map = new mapboxgl.Map({
       container: 'map-box',
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/streets-v10',
       zoom: 11,
     });
 
+    const language = new MapboxLanguage({
+      defaultLanguage: 'ru'
+    });
+    this.map.addControl(language);
+
+    // console.log(this.map.getStyle());
+    // this.map.setStyle(language.setLanguage(this.map.getStyle(), 'ru'));
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -47,7 +55,7 @@ export class GeoComponent implements OnInit {
     const success = pos => {
       const { longitude, latitude } = pos.coords;
       const coords: number[] = [+longitude, +latitude];
-      flyTo(coords, this.map, marker);
+      flyTo(coords, this.map, marker, this.lan);
     };
 
     const error = () => {
@@ -57,7 +65,7 @@ export class GeoComponent implements OnInit {
           const crd = res.split(/,\s*/);
           const [latitude, longitude] = crd;
           const coords: number[] = [+longitude, +latitude];
-          flyTo(coords, this.map, marker);
+          flyTo(coords, this.map, marker, this.lan);
         });
     };
 
@@ -68,7 +76,7 @@ export class GeoComponent implements OnInit {
   }
 
   newCoords(coords) {
-    flyTo(coords, this.map, marker);
+    flyTo(coords, this.map, marker, this.lan);
   }
 
   getDMS(coords) {

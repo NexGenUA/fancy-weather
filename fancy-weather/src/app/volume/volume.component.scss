@@ -1,0 +1,76 @@
+.volume-container {
+  display: flex;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(153, 253, 170, 0.5);
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 310px;
+  border-radius: 5px;
+  padding: 10px;
+
+  & .vol {
+    width: 20px;
+    border: 1px solid rgb(100, 100, 100);;
+
+    &.level {
+      background-color: rgb(100, 100, 100);
+    }
+
+    &.vol-1 {
+      height: 10px;
+    }
+
+    &.vol-2 {
+      height: 20px;
+    }
+
+    &.vol-3 {
+      height: 30px;
+    }
+
+    &.vol-4 {
+      height: 40px;
+    }
+
+    &.vol-5 {
+      height: 50px;
+    }
+
+    &.vol-6 {
+      height: 60px;
+    }
+
+    &.vol-7 {
+      height: 70px;
+    }
+
+    &.vol-8 {
+      height: 80px;
+    }
+
+    &.vol-9 {
+      height: 90px;
+    }
+
+    &.vol-10 {
+      height: 100px;
+    }
+  }
+}
+
+.hide {
+  animation: show .1s linear, hide .1s 2.2s linear;
+}
+
+@keyframes show {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+@keyframes hide {
+  from {opacity: 1}
+  to {opacity: 0}
+}

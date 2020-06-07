@@ -16,7 +16,13 @@ export class AppComponent implements OnInit{
     console.log('%c%s', 'color: orange; font: 1.1rem/1 Tahoma;', '| Кодовые слова для озвучивания погоды:   |');
     console.log('%c%s', 'color: coral; font: 1.1rem/1 Tahoma;', '| Для беларускай мовы: "Прагноз надвор\'я" |');
     console.log('%c%s', 'color: aqua; font: 1.1rem/1 Tahoma;', '| Для русского языка: "Прогноз погоды"      |');
-    console.log('%c%s', 'color: yellow; font: 1.1rem/1 Tahoma;', '| For english: "Weather forecast"                   |');
+    console.log('%c%s', 'color: tan; font: 1.1rem/1 Tahoma;', '| For english: "Weather forecast"                   |');
+    console.log('%c%s', 'color: green; font: 1.1rem/1 Tahoma;', '---------------------------------------------------------');
+    console.log('%c%s', 'color: orange; font: 1.1rem/1 Tahoma;', '| Кодовые слова для регулировки звука:        |');
+    console.log('%c%s', 'color: coral; font: 1.1rem/1 Tahoma;', '| Для беларускай мовы: "гучней" или "цішэй" |');
+    console.log('%c%s', 'color: aqua; font: 1.1rem/1 Tahoma;', '| Для русского языка: "громче" или "тише"     |');
+    console.log('%c%s', 'color: tan; font: 1.1rem/1 Tahoma;', '| For english: "louder" or "hash"                       |');
+    console.log('%c%s', 'color: orange; font: 1.1rem/1 Tahoma;', '| Работает только при не активном синтезе!   |');
     console.log('%c%s', 'color: green; font: 1.1rem/1 Tahoma;', '---------------------------------------------------------');
   }
 

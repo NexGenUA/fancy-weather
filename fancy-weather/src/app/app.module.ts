@@ -15,6 +15,8 @@ import localeBe from '@angular/common/locales/be';
 import { WeatherOneDayComponent } from './weather-one-day/weather-one-day.component';
 import { SwitchDegreeService } from './services/switch-degree.service';
 import { TempPipe } from './pipes/temp.pipe';
+import { VolumeComponent } from './volume/volume.component';
+import { VolumeService } from './services/volume.service';
 
 registerLocaleData(localeRu, 'ru');
 registerLocaleData(localeBe, 'be');
@@ -28,13 +30,18 @@ registerLocaleData(localeBe, 'be');
     GeoComponent,
     WeatherIconsComponent,
     WeatherOneDayComponent,
-    TempPipe
+    TempPipe,
+    VolumeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule
   ],
-  providers: [SwitchLangServices, SwitchDegreeService],
+  providers: [
+    SwitchLangServices,
+    SwitchDegreeService,
+    VolumeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,6 +6,7 @@ import { SwitchDegreeService } from '../services/switch-degree.service';
 import { changeBackground } from '../services/change-background-url.service';
 import { getWeatherService } from '../services/get-weather.service';
 import { preloader } from '../../common/preloader';
+import { VolumeService } from '../services/volume.service';
 
 @Component({
   selector: 'app-control-block',
@@ -42,6 +43,8 @@ export class ControlBlockComponent implements OnInit {
   fromMic = false;
   lastSpeech = false;
   speechTogether = false;
+  volume = 1;
+  codePhrase = false;
 
   @Output() changeBackground: EventEmitter<string> = new EventEmitter<string>();
   @Input() speachText: object;
@@ -56,7 +59,10 @@ export class ControlBlockComponent implements OnInit {
     };
   }
 
-  constructor(private change: SwitchLangServices, private switchDegree: SwitchDegreeService) {
+  constructor(
+    private change: SwitchLangServices,
+    private switchDegree: SwitchDegreeService,
+    private volChange: VolumeService) {
     this.change.change.subscribe(lan => {
       this.switchLan(lan);
     });
@@ -197,7 +203,19 @@ export class ControlBlockComponent implements OnInit {
 
     this.msg = new SpeechSynthesisUtterance();
     this.msg.text = str;
-    this.msg.volume = 1;
+    this.msg.volume = this.volume;
+
+    //
+    // setTimeout(() => {
+    //   this.synth.pause();
+    //   this.msg.volume = 0.5;
+    //
+    //   setTimeout(() => {
+    //     this.synth.resume();
+    //   }, 3000);
+    //
+    // }, 1000);
+
 
 
     if (this.speechTogether) {
@@ -273,14 +291,42 @@ export class ControlBlockComponent implements OnInit {
         return;
       }
 
-      if ([...result].some(el => {
+      const checkPhrase = key => [...result].some(el => {
         const inc = (el as string).toLowerCase();
-        const code = translationWeather[this.lan].codePhrase.toLowerCase();
+        const code = translationWeather[this.lan][key].toLowerCase();
         return inc.includes(code);
-      })) {
+      });
+
+      if (checkPhrase('codePhrase')) {
         this.speechTogether = true;
         this.isMicOn = false;
         this.speechWeather();
+        return;
+      }
+
+      if (checkPhrase('up')) {
+        this.codePhrase = true;
+        let up = this.volume;
+        up = up >= 1 ? 1 : ((up * 10) + 1) / 10;
+        this.volume = up;
+        this.volChange.sendVol(up * 10);
+        result.clear();
+        if (this.isMicOn) {
+          this.recognition.start();
+        }
+        return;
+      }
+
+      if (checkPhrase('down')) {
+        this.codePhrase = true;
+        let down = this.volume;
+        down = down <= 0.1 ? 0.1 : ((down * 10) - 1) / 10;
+        this.volume = down;
+        this.volChange.sendVol(down * 10);
+        result.clear();
+        if (this.isMicOn) {
+          this.recognition.start();
+        }
         return;
       }
 

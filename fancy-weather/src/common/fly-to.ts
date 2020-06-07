@@ -8,7 +8,7 @@ import { preloader } from './preloader';
 
 const { WEATHER_KEY, YANDEX_KEY } = config;
 
-export const flyTo = async (coords, map, marker) => {
+export const flyTo = async (coords, map, marker, lang) => {
   const loader = preloader();
 
   const weatherUrl = new URL('https://api.openweathermap.org/data/2.5/weather?lat=');
@@ -79,6 +79,7 @@ export const flyTo = async (coords, map, marker) => {
   weatherOneDay.setOneDayWeather(weather);
   showLatLonServices.sendDecimalCoords(coords);
   forecastService.sendForecast(forecast.list);
+
   marker.setLngLat(coords).addTo(map);
   map.flyTo({
     center: coords,

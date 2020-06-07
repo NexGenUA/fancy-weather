@@ -1,17 +1,18 @@
 <div class="wrap-app change" [style]="background" id="wrap-app">
 </div>
-  <div class="container-app">
-    <app-control-block
-      (changeBackground)="switchBackground($event)"
-      [speachText]="currentWeatherText"
-    ></app-control-block>
-    <div class="container">
-      <div class="weather">
-        <app-weather-today
-          (weatherText)="updateWeatherText($event)"
-        ></app-weather-today>
-        <app-weather-three-days></app-weather-three-days>
-      </div>
-      <app-geo></app-geo>
+<div class="container-app">
+  <app-control-block
+    (changeBackground)="switchBackground($event)"
+    [speachText]="currentWeatherText"
+  ></app-control-block>
+  <div class="container">
+    <div class="weather">
+      <app-weather-today
+        (weatherText)="updateWeatherText($event)"
+      ></app-weather-today>
+      <app-weather-three-days></app-weather-three-days>
     </div>
+    <app-geo></app-geo>
   </div>
+</div>
+<app-volume></app-volume>
